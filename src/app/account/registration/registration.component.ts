@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChildren } from '@angular/core';
 import { FormBuilder, FormControl, FormControlName, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { CustomValidators } from '@narik/custom-validators';
 import { fromEvent, merge, Observable } from 'rxjs';
 import { DisplayMessage, GenericValidator, ValidationMessages } from 'src/app/utils/generic-form-validation';
@@ -15,14 +16,16 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
 
   @ViewChildren(FormControlName, {read: ElementRef}) formInputElements: ElementRef[];
 
-  erros: any[] = [];
+  errors: any[] = [];
   registrationForm: FormGroup;
   user: SystemUser;
   validationMessages: ValidationMessages;
   genericValidation: GenericValidator;
   displayMessage: DisplayMessage = {};
 
-  constructor(private fb: FormBuilder, private accountService: AccountService) { 
+  constructor(private fb: FormBuilder, 
+    private accountService: AccountService,
+    private router: Router) { 
 
     this.validationMessages = {
       email: {
@@ -77,11 +80,15 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
   }
 
   processSuccess(response: any) {
+    this.registrationForm.reset();
+    this.errors = [];
 
+    this.accountService.LocalStorage.salvarDadosLocaisUsuario(response);
+    this.router.navigate(['/home']);
   }
 
   processFailure(fail: any) {
-    
+    this.errors = fail.error.errors;
   }
 
 }
