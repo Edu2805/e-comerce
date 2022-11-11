@@ -6,6 +6,7 @@ import { fromEvent, merge, Observable } from 'rxjs';
 import { DisplayMessage, GenericValidator, ValidationMessages } from 'src/app/utils/generic-form-validation';
 import { SystemUser } from '../models/systemuser';
 import { AccountService } from '../services/account.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-registration',
@@ -22,10 +23,12 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
   validationMessages: ValidationMessages;
   genericValidation: GenericValidator;
   displayMessage: DisplayMessage = {};
+  unsavedChanges: boolean;
 
   constructor(private fb: FormBuilder, 
     private accountService: AccountService,
-    private router: Router) { 
+    private router: Router,
+    private toastrService: ToastrService) { 
 
     this.validationMessages = {
       email: {
@@ -64,6 +67,7 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
 
     merge(...controlBlurs).subscribe(() => {
       this.displayMessage = this.genericValidation.processarMensagens(this.registrationForm);
+      this.unsavedChanges = true;
     })
   }
 
@@ -76,6 +80,7 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
           success => {this.processSuccess(success)},
           failure => {this.processFailure(failure)}
         );
+        this.unsavedChanges = false;
     }
   }
 
@@ -84,11 +89,17 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
     this.errors = [];
 
     this.accountService.LocalStorage.salvarDadosLocaisUsuario(response);
-    this.router.navigate(['/home']);
+    let toast = this.toastrService.success('Registro realizado com sucesso', 'Bem vindo (a)!');
+    if (toast) {
+      toast.onHidden.subscribe(() => {
+        this.router.navigate(['/home']);
+      });
+    }
   }
 
   processFailure(fail: any) {
     this.errors = fail.error.errors;
+    this.toastrService.error('Ocorreu um erro', 'Erro');
   }
 
 }
