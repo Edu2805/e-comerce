@@ -9,6 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http'
 import { AccountService } from './services/account.service';
 import { NarikCustomValidatorsModule } from '@narik/custom-validators';
+import { AccountGuard } from './services/account.guard';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { NarikCustomValidatorsModule } from '@narik/custom-validators';
     NarikCustomValidatorsModule
   ],
   providers: [
-    AccountService
+    AccountService,
+    AccountGuard
   ]
 })
 export class AccountModule { }
