@@ -5,15 +5,24 @@ import { LocalStorageUtils } from "../utils/localstorage";
 
 export abstract class BaseService {
 
-    public LocalStorage = new LocalStorageUtils();
     protected UrlServiceV1: string = environment.apiUrlv1;
+    public LocalStorage = new LocalStorageUtils();
 
     protected GetHeaderJson() {
         return {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json'
             })
-        }
+        };
+    }
+
+    protected GetAuthHeaderJson() {
+        return {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${this.LocalStorage.obterTokenUsuario()}`
+            })
+        };
     }
 
     protected extractData(response: any) {
@@ -24,11 +33,13 @@ export abstract class BaseService {
         let customError: string[] = [];
 
         if (response instanceof HttpErrorResponse) {
-            if (response.statusText === 'Unknown Error') {
+
+            if (response.statusText === "Unknown Error") {
                 customError.push("Ocorreu um erro desconhecido");
                 response.error.errors = customError;
             }
         }
+
         console.error(response);
         return throwError(response);
     }
