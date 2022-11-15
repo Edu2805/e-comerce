@@ -2,6 +2,7 @@ import { CommonModule } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
 import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { NgxMaskModule } from "ngx-mask";
 import { CreateComponent } from "./create/create.component";
 import { DeleteComponent } from "./delete/delete.component";
 import { DetailsComponent } from "./details/details.component";
@@ -25,7 +26,8 @@ import { UpdateComponent } from "./update/update.component";
       ProviderRoutingModule,
       FormsModule,
       ReactiveFormsModule,
-      HttpClientModule
+      HttpClientModule,
+      NgxMaskModule.forRoot(),
     ],
     providers: [
       ProviderService
