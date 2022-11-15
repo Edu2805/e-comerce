@@ -4,7 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, fromEvent, merge } from 'rxjs';
 import { ValidationMessages, GenericValidator, DisplayMessage } from 'src/app/utils/generic-form-validation';
-import { Address } from '../models/address';
+import { Endereco } from '../models/address';
 import { Fornecedor } from '../models/providerEntity';
 import { ProviderService } from '../services/provider.service';
 
@@ -23,7 +23,7 @@ export class UpdateComponent implements OnInit {
   addressForm: FormGroup;
 
   provider: Fornecedor = new Fornecedor();
-  address: Address = new Address();
+  address: Endereco = new Endereco();
 
   validationMessages: ValidationMessages;
   genericValidator: GenericValidator;

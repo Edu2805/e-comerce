@@ -67,7 +67,18 @@ export class CreateComponent implements OnInit {
       documento: ['', [Validators.required]],
       ativo: ['', [Validators.required]],
       tipoFornecedor: ['', [Validators.required]],
+
+      endereco: this.fb.group({
+        logradouro: ['', [Validators.required]],
+        numero: ['', [Validators.required]],
+        complemento: [''],
+        bairro: ['', [Validators.required]],
+        cep: ['', [Validators.required]],
+        cidade: ['', [Validators.required]],
+        estado: ['', [Validators.required]]
+      })
     });
+    this.providerForm.patchValue({tipoFornecedor: '1', ativo: true});
   }
 
   ngAfterViewInit(): void {
