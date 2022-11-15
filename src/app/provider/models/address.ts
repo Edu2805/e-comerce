@@ -1,4 +1,4 @@
-export class Address {
+export class Endereco {
     id: string;
     logradouro: string;
     numero: string;

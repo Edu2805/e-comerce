@@ -1,4 +1,4 @@
-import { Address } from "./address";
+import { Endereco } from "./address";
 
 export class Fornecedor {
     id: string;
@@ -6,5 +6,5 @@ export class Fornecedor {
     documento: string;
     ativo: boolean;
     tipoFornecedor: number;
-    endereco: Address;
+    endereco: Endereco;
 }
