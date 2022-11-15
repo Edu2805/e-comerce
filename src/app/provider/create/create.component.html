@@ -35,10 +35,11 @@
                     <div>
                         <input 
                             class="form-control" 
-                            id="documento" t
-                            ype="text" 
-                            placeholder="(requerido)" 
+                            id="documento"
+                            type="text" 
+                            placeholder="{{ documentText }}" 
                             formControlName="documento" 
+                            [mask]="documentMask()"
                             [ngClass]="{'is-invalid': displayMessage.documento }" 
                         />
 
@@ -95,6 +96,7 @@
                                 type="text" 
                                 placeholder="CEP (requerido)" 
                                 formControlName="cep" 
+                                mask="00.000-000"
                                 [ngClass]="{ 'is-invalid': displayMessage.cep }" 
                             />
                             <span class="text-danger" *ngIf="displayMessage.cep">

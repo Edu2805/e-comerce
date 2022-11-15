@@ -1,8 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChildren } from '@angular/core';
-import { FormBuilder, FormControlName, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControlName, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { fromEvent, merge, Observable } from 'rxjs';
+import { CpfCnpjValidators } from 'src/app/utils/document-validators-form';
 import { DisplayMessage, GenericValidator, ValidationMessages } from 'src/app/utils/generic-form-validation';
 import { Fornecedor } from '../models/providerEntity';
 import { ProviderService } from '../services/provider.service';
@@ -23,6 +24,8 @@ export class CreateComponent implements OnInit {
   validationMessages: ValidationMessages;
   genericValidation: GenericValidator;
   displayMessage: DisplayMessage = {};
+  vaidateDocument: any;
+  documentText: string = 'CPF (requerido)';
 
   formResult: string= '';
   unsavedChanges: boolean;
@@ -38,6 +41,8 @@ export class CreateComponent implements OnInit {
       },
       documento: {
         required: 'Informe o Documento',
+        cpfInvalido: 'CPF inválido',
+        cnpjInvalido: 'CNPJ inválido'
       },
       logradouro: {
         required: 'Informe o Logradouro',
@@ -64,7 +69,7 @@ export class CreateComponent implements OnInit {
   ngOnInit() {
     this.providerForm = this.fb.group({
       nome: ['', [Validators.required]],
-      documento: ['', [Validators.required]],
+      documento: ['', Validators.compose([Validators.required, CpfCnpjValidators.cpf])],
       ativo: ['', [Validators.required]],
       tipoFornecedor: ['', [Validators.required]],
 
@@ -82,13 +87,48 @@ export class CreateComponent implements OnInit {
   }
 
   ngAfterViewInit(): void {
+    this.providerFormType().valueChanges
+      .subscribe(() => {
+        this.changeValidateDocumentType();
+        this.validateElementsConfig();
+        this.formValidate();
+      })
+
+    this.validateElementsConfig();
+  }
+
+  validateElementsConfig() {
     let controlBlurs: Observable<any>[] = this.formInputElements
       .map((formControl: ElementRef) => fromEvent(formControl.nativeElement, 'blur'));
 
     merge(...controlBlurs).subscribe(() => {
-      this.displayMessage = this.genericValidation.processarMensagens(this.providerForm);
-      this.unsavedChanges = true;
+      this.formValidate();
     })
+  }
+
+  formValidate() {
+    this.displayMessage = this.genericValidation.processarMensagens(this.providerForm);
+    this.unsavedChanges = true;
+  }
+
+  changeValidateDocumentType() {
+    if (this.providerFormType().value === '1') {
+      this.document().clearValidators();
+      this.document().setValidators([Validators.required, CpfCnpjValidators.cpf]);
+      this.documentText = "CPF (requerido)";
+    } else {
+      this.document().clearValidators();
+      this.document().setValidators([Validators.required, CpfCnpjValidators.cnpj]);
+      this.documentText = "CNPJ (requerido)";
+    }
+  }
+
+  providerFormType(): AbstractControl {
+    return this.providerForm.get('tipoFornecedor');
+  }
+
+  document():AbstractControl {
+    return this.providerForm.get('documento');
   }
 
   addProvider() {
@@ -121,5 +161,22 @@ export class CreateComponent implements OnInit {
   processFail(fail: any) {
     this.errors = fail.error.errors;
     this.toastr.error('Ocorreu um erro!', 'Opa :(');
+  }
+
+  documentMask(): string {
+    if (this.providerForm.get('tipoFornecedor').value == "1") {
+      return "000.000.000-00";
+    } else if (this.providerForm.get('tipoFornecedor').value == "2") {
+      return "00.000.000/0000-00";
+    }
+    return "";
+  }
+
+  get documento() {
+    return this.providerForm.get('documento');
+  }
+
+  get tipoFornecedor() {
+    return this.providerForm.get('tipoFornecedor');
   }
 }
