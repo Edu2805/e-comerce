@@ -5,6 +5,8 @@ import { ToastrService } from 'ngx-toastr';
 import { fromEvent, merge, Observable } from 'rxjs';
 import { CpfCnpjValidators } from 'src/app/utils/document-validators-form';
 import { DisplayMessage, GenericValidator, ValidationMessages } from 'src/app/utils/generic-form-validation';
+import { StringUtils } from 'src/app/utils/string-utils';
+import { QueryCep } from '../models/address';
 import { Fornecedor } from '../models/providerEntity';
 import { ProviderService } from '../services/provider.service';
 
@@ -131,12 +133,38 @@ export class CreateComponent implements OnInit {
     return this.providerForm.get('documento');
   }
 
+  findCep(event: Event) {
+    let cep = (event.target as HTMLInputElement).value;
+    cep = StringUtils.onlyNumber(cep);
+    if (cep.length < 8) return;
+
+    this.providerService.queryCep(cep)
+      .subscribe(
+        cepRetorno => this.fillAddressQuery(cepRetorno),
+        erro => this.errors.push(erro));
+  }
+
+  fillAddressQuery(queryCep: QueryCep) {
+    this.providerForm.patchValue({
+      endereco: {
+        logradouro: queryCep.logradouro,
+        bairro: queryCep.bairro,
+        cep: queryCep.cep,
+        cidade: queryCep.localidade,
+        estado: queryCep.uf
+      }
+    });
+  }
+
   addProvider() {
     if (this.providerForm.dirty && this.providerForm.valid) {
-
       this.provider = Object.assign({}, this.provider, this.providerForm.value);
       this.formResult = JSON.stringify(this.provider);
 
+      this.provider.endereco.cep = StringUtils.onlyNumber(this.provider.endereco.cep);
+      this.provider.documento = StringUtils.onlyNumber(this.provider.documento);
+
+      this.provider.tipoFornecedor = this.provider.tipoFornecedor == 1 ? +'1' : +'2';
       this.providerService.newProvider(this.provider)
         .subscribe(
           success => { this.processSuccess(success) },

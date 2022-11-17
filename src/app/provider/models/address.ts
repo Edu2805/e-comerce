@@ -9,3 +9,12 @@ export class Endereco {
     estado: string;
     fornecedorId: string;
 }
+
+export class QueryCep {
+    cep: string;
+    logradouro: string;
+    complemento: string;
+    bairro: string;
+    localidade: string;
+    uf: string;
+}
