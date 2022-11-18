@@ -14,8 +14,7 @@ export class DetailsComponent {
 
   constructor(private route: ActivatedRoute, private providerService: ProviderService) {
 
-    this.providerService.findProviderById(route.params['id'])
-      .subscribe(provider => this.provider = provider);
+    this.provider = this.route.snapshot.data['provider'];
   }
 
 }

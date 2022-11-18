@@ -19,8 +19,7 @@ export class DeleteComponent {
     private router: Router,
     private toastr: ToastrService) {
 
-    this.providerService.findProviderById(route.params['id'])
-      .subscribe(provider => this.provider = provider);
+      this.provider = this.route.snapshot.data['provider'];
   }
 
   deleteEvent() {
