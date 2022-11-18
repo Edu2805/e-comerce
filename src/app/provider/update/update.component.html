@@ -40,7 +40,9 @@
                             class="form-control" 
                             id="documento" 
                             type="text" 
-                            placeholder="requerido" 
+                            placeholder="{{documentText}}" 
+                            formControlName="documento"
+                            [mask]="documentMask()"
                             [ngClass]="{'is-invalid': displayMessage.documento }" 
                         />
 

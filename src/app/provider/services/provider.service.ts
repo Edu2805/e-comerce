@@ -17,7 +17,7 @@ export class ProviderService extends BaseService{
 
   newProvider(provider: Fornecedor): Observable<Fornecedor> {
     return this.http
-      .post(this.UrlServiceV1 + "fornecedores", provider, this.GetAuthHeaderJson())
+      .post(this.UrlServiceV1 + 'fornecedores', provider, this.GetAuthHeaderJson())
       .pipe(
         map(super.extractData),
         catchError(super.serviceError));
@@ -25,12 +25,14 @@ export class ProviderService extends BaseService{
 
   getAllProviders(): Observable<Fornecedor[]> {
     return this.http
-      .get<Fornecedor[]>(this.UrlServiceV1 + "fornecedores")
+      .get<Fornecedor[]>(this.UrlServiceV1 + 'fornecedores')
       .pipe(catchError(super.serviceError));
   }
 
   findProviderById(id: string): Observable<Fornecedor> {
-    return new Observable<Fornecedor>;
+    return this.http
+      .get<Fornecedor>(this.UrlServiceV1 + 'fornecedores/' + id, super.GetAuthHeaderJson())
+      .pipe(catchError(super.serviceError));
   }
 
   updateProvider(fornecedor: Fornecedor): Observable<Fornecedor> {

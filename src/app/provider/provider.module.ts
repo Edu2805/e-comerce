@@ -9,6 +9,7 @@ import { DetailsComponent } from "./details/details.component";
 import { ProviderAppComponent } from "./provider.app.component";
 import { ProviderRoutingModule } from "./provider.route";
 import { ReadComponent } from "./read/read.component";
+import { ProviderResolve } from "./services/provider.resolve";
 import { ProviderService } from "./services/provider.service";
 import { UpdateComponent } from "./update/update.component";
 
@@ -30,7 +31,8 @@ import { UpdateComponent } from "./update/update.component";
       NgxMaskModule.forRoot(),
     ],
     providers: [
-      ProviderService
+      ProviderService,
+      ProviderResolve
     ]
   })
   export class ProviderModule { }

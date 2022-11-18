@@ -5,6 +5,7 @@ import { DeleteComponent } from "./delete/delete.component";
 import { DetailsComponent } from "./details/details.component";
 import { ProviderAppComponent } from "./provider.app.component";
 import { ReadComponent } from "./read/read.component";
+import { ProviderResolve } from "./services/provider.resolve";
 import { UpdateComponent } from "./update/update.component";
 
 const providerRouterConfig: Routes = [
@@ -13,9 +14,24 @@ const providerRouterConfig: Routes = [
         children: [
             { path: 'listar-todos', component: ReadComponent },
             { path: 'adicionar-novo', component: CreateComponent },
-            { path: 'editar/:id', component: UpdateComponent },
-            { path: 'detalhes/:id', component: DetailsComponent },
-            { path: 'excluir/:id', component: DeleteComponent }
+            { 
+                path: 'editar/:id', component: UpdateComponent,
+                resolve: {
+                    provider: ProviderResolve
+                }
+            },
+            { 
+                path: 'detalhes/:id', component: DetailsComponent,
+                resolve: {
+                    provider: ProviderResolve
+                }
+            },
+            { 
+                path: 'excluir/:id', component: DeleteComponent,
+                resolve: {
+                    provider: ProviderResolve
+                }
+            }
         ]
     }
 ];
