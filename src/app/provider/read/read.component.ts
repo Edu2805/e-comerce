@@ -32,8 +32,8 @@ export class ReadComponent implements OnInit {
   }
 
   processFail(fail: any) {
-    this.spinner.hide();
     this.errors = fail.error.errors;
     this.toastr.error('Ocorreu um erro!', 'Opa :(');
+    this.spinner.hide();
   }
 }

@@ -7,11 +7,11 @@ import { Endereco, QueryCep } from "../models/address";
 import { Fornecedor } from "../models/providerEntity";
 
 @Injectable()
-export class ProviderService extends BaseService{
+export class ProviderService extends BaseService {
 
   provider: Fornecedor = new Fornecedor();
 
-  constructor(private http: HttpClient ) { 
+  constructor(private http: HttpClient) {
     super();
   }
 
@@ -44,7 +44,11 @@ export class ProviderService extends BaseService{
   }
 
   deleteProvider(id: string): Observable<Fornecedor> {
-    return new Observable<Fornecedor>;
+    return this.http
+      .delete(this.UrlServiceV1 + "fornecedores/" + id, super.GetAuthHeaderJson())
+      .pipe(
+        map(super.extractData),
+        catchError(super.serviceError));
   }
 
   queryCep(cep: string): Observable<QueryCep> {
@@ -55,9 +59,9 @@ export class ProviderService extends BaseService{
 
   updateAddress(endereco: Endereco): Observable<Endereco> {
     return this.http
-        .put(this.UrlServiceV1 + "fornecedores/endereco/" + endereco.id, endereco, super.GetAuthHeaderJson())
-        .pipe(
-            map(super.extractData),
-            catchError(super.serviceError));
-}
+      .put(this.UrlServiceV1 + "fornecedores/endereco/" + endereco.id, endereco, super.GetAuthHeaderJson())
+      .pipe(
+        map(super.extractData),
+        catchError(super.serviceError));
+  }
 }

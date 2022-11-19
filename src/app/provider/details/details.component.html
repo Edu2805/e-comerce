@@ -1,4 +1,13 @@
 <div class="container main-container">
+    <ngx-spinner 
+        bdColor = "rgba(0, 0, 0, 0.8)" 
+        size = "medium" 
+        color = "#fff" 
+        type = "ball-beat" 
+        [fullScreen] = "true"
+    ><p style="color: white" > Aguarde... </p>
+    </ngx-spinner>
+
     <h1>Detalhes do {{ provider.nome }}</h1>
 
     <div>
@@ -29,6 +38,17 @@
                 >
             </dd>
         </dl>
+        <div class="row">
+            <br>
+            <iframe 
+                width="100%" 
+                height="450" 
+                frameborder="0" 
+                style="border:0; padding-bottom: 50px;" 
+                [src]="addressMap" 
+                allowfullscreen>
+            </iframe>
+        </div>
     </div>
 
     <div>
