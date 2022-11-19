@@ -1,12 +1,14 @@
 import { Component, ElementRef, OnInit, ViewChildren } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControlName, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, fromEvent, merge } from 'rxjs';
 import { CpfCnpjValidators } from 'src/app/utils/document-validators-form';
 import { ValidationMessages, GenericValidator, DisplayMessage } from 'src/app/utils/generic-form-validation';
 import { StringUtils } from 'src/app/utils/string-utils';
-import { QueryCep } from '../models/address';
+import { Endereco, QueryCep } from '../models/address';
 import { Fornecedor } from '../models/providerEntity';
 import { ProviderService } from '../services/provider.service';
 
@@ -20,8 +22,11 @@ export class UpdateComponent implements OnInit {
   @ViewChildren(FormControlName, { read: ElementRef }) formInputElements: ElementRef[];
 
   errors: any[] = [];
+  errorsAddress: any[] = [];
   providerForm: FormGroup;
+  addressForm: FormGroup;
   provider: Fornecedor = new Fornecedor();
+  address: Endereco = new Endereco();
 
   validationMessages: ValidationMessages;
   genericValidation: GenericValidator;
@@ -37,7 +42,9 @@ export class UpdateComponent implements OnInit {
     private providerService: ProviderService,
     private router: Router,
     private toastr: ToastrService,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private modalService: NgbModal,
+    private spinner: NgxSpinnerService) {
 
     this.validationMessages = {
       nome: {
@@ -75,14 +82,32 @@ export class UpdateComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.spinner.show();
+
     this.providerForm = this.fb.group({
-      if: '',
+      id: '',
       nome: ['', [Validators.required]],
       documento: '',
       ativo: ['', [Validators.required]],
       tipoFornecedor: ['', [Validators.required]],
     });
+
+    this.addressForm = this.fb.group({
+      id: '',
+      logradouro: ['', [Validators.required]],
+      numero: ['', [Validators.required]],
+      complemento: [''],
+      bairro: ['', [Validators.required]],
+      cep: ['', [Validators.required]],
+      cidade: ['', [Validators.required]],
+      estado: ['', [Validators.required]],
+      fornecedorId: ''
+    });
     this.fillForm();
+
+    setTimeout(() => {
+      this.spinner.hide();
+    }, 2000);
   }
 
   fillForm() {
@@ -99,6 +124,17 @@ export class UpdateComponent implements OnInit {
     } else {
       this.document().setValidators([Validators.required, CpfCnpjValidators.cnpj]);
     }
+
+    this.addressForm.patchValue({
+      id: this.provider.endereco.id,
+      logradouro: this.provider.endereco.logradouro,
+      numero: this.provider.endereco.numero,
+      complemento: this.provider.endereco.complemento,
+      bairro: this.provider.endereco.bairro,
+      cep: this.provider.endereco.cep,
+      cidade: this.provider.endereco.cidade,
+      estado: this.provider.endereco.estado
+    });
   }
 
   ngAfterViewInit(): void {
@@ -158,7 +194,7 @@ export class UpdateComponent implements OnInit {
   }
 
   fillAddressQuery(queryCep: QueryCep) {
-    this.providerForm.patchValue({
+    this.addressForm.patchValue({
         logradouro: queryCep.logradouro,
         bairro: queryCep.bairro,
         cep: queryCep.cep,
@@ -170,9 +206,6 @@ export class UpdateComponent implements OnInit {
   editProvider() {
     if (this.providerForm.dirty && this.providerForm.valid) {
       this.provider = Object.assign({}, this.provider, this.providerForm.value);
-      this.formResult = JSON.stringify(this.provider);
-
-      this.provider.endereco.cep = StringUtils.onlyNumber(this.provider.endereco.cep);
       this.provider.documento = StringUtils.onlyNumber(this.provider.documento);
 
       this.provider.tipoFornecedor = this.provider.tipoFornecedor == 1 ? +'1' : +'2';
@@ -182,6 +215,33 @@ export class UpdateComponent implements OnInit {
           fail => { this.processFail(fail) }
         );
     }
+  }
+
+  editAddress() {
+    if (this.addressForm.dirty && this.addressForm.valid) {
+      this.address = Object.assign({}, this.address, this.addressForm.value);
+      this.address.cep = StringUtils.onlyNumber(this.address.cep);
+      this.address.fornecedorId = this.provider.id;
+
+      this.providerService.updateAddress(this.address)
+        .subscribe(
+          () => this.processSuccessAddress(this.address),
+          falha => { this.processFailAddress(falha) }
+        );
+    }
+  }
+
+  processSuccessAddress(address: Endereco) {
+    this.errors = [];
+
+    this.toastr.success('Endereço atualizado com sucesso!', 'Sucesso!');
+    this.provider.endereco = address
+    this.modalService.dismissAll();
+  }
+
+  processFailAddress(fail: any) {
+    this.errorsAddress = fail.error.errors;
+    this.toastr.error('Ocorreu um erro!', 'Opa :(');
   }
 
   documentMask(): string {
@@ -207,5 +267,9 @@ export class UpdateComponent implements OnInit {
   processFail(fail: any) {
     this.errors = fail.error.errors;
     this.toastr.error('Ocorreu um erro!', 'Opa :(');
+  }
+
+  showModal(content) {
+    this.modalService.open(content);
   }
 }

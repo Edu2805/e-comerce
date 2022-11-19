@@ -1,8 +1,11 @@
 import { CommonModule } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
-import { NgModule } from "@angular/core";
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgxMaskModule } from "ngx-mask";
+import { NgxSpinnerModule } from "ngx-spinner";
+import { CepPipe } from "../utils/pipes/cep.pipe";
+import { CnpjPipe, CpfPipe } from "../utils/pipes/documents.pipe";
 import { CreateComponent } from "./create/create.component";
 import { DeleteComponent } from "./delete/delete.component";
 import { DetailsComponent } from "./details/details.component";
@@ -20,7 +23,10 @@ import { UpdateComponent } from "./update/update.component";
       ReadComponent,
       UpdateComponent,
       DeleteComponent,
-      DetailsComponent
+      DetailsComponent,
+      CepPipe,
+      CpfPipe,
+      CnpjPipe
     ],
     imports: [
       CommonModule,
@@ -29,7 +35,9 @@ import { UpdateComponent } from "./update/update.component";
       ReactiveFormsModule,
       HttpClientModule,
       NgxMaskModule.forRoot(),
+      NgxSpinnerModule
     ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
     providers: [
       ProviderService,
       ProviderResolve

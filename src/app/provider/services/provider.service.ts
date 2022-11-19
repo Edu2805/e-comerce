@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 import { BaseService } from "src/app/services/base.service";
-import { QueryCep } from "../models/address";
+import { Endereco, QueryCep } from "../models/address";
 import { Fornecedor } from "../models/providerEntity";
 
 @Injectable()
@@ -35,8 +35,12 @@ export class ProviderService extends BaseService{
       .pipe(catchError(super.serviceError));
   }
 
-  updateProvider(fornecedor: Fornecedor): Observable<Fornecedor> {
-    return new Observable<Fornecedor>;
+  updateProvider(provider: Fornecedor): Observable<Fornecedor> {
+    return this.http
+      .put(this.UrlServiceV1 + "fornecedores/" + provider.id, provider, super.GetAuthHeaderJson())
+      .pipe(
+        map(super.extractData),
+        catchError(super.serviceError));
   }
 
   deleteProvider(id: string): Observable<Fornecedor> {
@@ -48,4 +52,12 @@ export class ProviderService extends BaseService{
       .get<QueryCep>(`https://viacep.com.br/ws/${cep}/json/`)
       .pipe(catchError(super.serviceError));
   }
+
+  updateAddress(endereco: Endereco): Observable<Endereco> {
+    return this.http
+        .put(this.UrlServiceV1 + "fornecedores/endereco/" + endereco.id, endereco, super.GetAuthHeaderJson())
+        .pipe(
+            map(super.extractData),
+            catchError(super.serviceError));
+}
 }

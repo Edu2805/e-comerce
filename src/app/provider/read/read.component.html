@@ -20,7 +20,12 @@
                 {{ provider.nome }}
             </td>
             <td>
-                {{ provider.documento }}
+                <div *ngIf="provider.tipoFornecedor === 1">
+                    {{ provider.documento | cpf}}
+                </div>
+                <div *ngIf="provider.tipoFornecedor === 2">
+                    {{ provider.documento | cnpj}}
+                </div>
             </td>
             <td>
                 <input [checked]="provider.ativo" class="check-box" disabled="disabled" type="checkbox">

@@ -76,3 +76,6 @@ file,
 textarea {
     max-width: 400px;
 }
+
+// corrige o bug do modal da tela de editar
+.modal-backdrop.fade.show { z-index: 1050 !important; }
