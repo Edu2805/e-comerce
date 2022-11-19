@@ -1,4 +1,6 @@
 import { Component, OnInit } from "@angular/core";
+import { NgxSpinnerService } from "ngx-spinner";
+import { ToastrService } from "ngx-toastr";
 import { Fornecedor } from "../models/providerEntity";
 import { ProviderService } from "../services/provider.service";
 
@@ -11,16 +13,27 @@ export class ReadComponent implements OnInit {
 
   public providers: Fornecedor[];
   errorMessage: string;
+  errors: any[] = [];
 
-  constructor(private providerService: ProviderService) { }
+  constructor(private providerService: ProviderService,
+    private spinner: NgxSpinnerService,
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
+    this.spinner.show();
     this.providerService.getAllProviders()
-        .subscribe({
-          next: providers => this.providers = providers,
-          error(error) {
-              error = this.errorMessage;
-          },
-        });
+    .subscribe(
+      providers => {
+        this.providers = providers,
+        this.spinner.hide();
+      },
+      fail => { this.processFail(fail) }
+    );
+  }
+
+  processFail(fail: any) {
+    this.spinner.hide();
+    this.errors = fail.error.errors;
+    this.toastr.error('Ocorreu um erro!', 'Opa :(');
   }
 }

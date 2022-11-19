@@ -1,5 +1,14 @@
 <div class="container main-container">
 
+    <ngx-spinner 
+        bdColor = "rgba(0, 0, 0, 0.8)" 
+        size = "medium" 
+        color = "#fff" 
+        type = "ball-beat" 
+        [fullScreen] = "true"
+    ><p style="color: white" > Aguarde... </p>
+    </ngx-spinner>
+
     <h1>Lista de Fornecedores</h1>
 
     <p>
@@ -20,12 +29,7 @@
                 {{ provider.nome }}
             </td>
             <td>
-                <div *ngIf="provider.tipoFornecedor === 1">
-                    {{ provider.documento | cpf}}
-                </div>
-                <div *ngIf="provider.tipoFornecedor === 2">
-                    {{ provider.documento | cnpj}}
-                </div>
+                {{provider.tipoFornecedor === 1 ? (provider.documento | cpf) : (provider.documento | cnpj ) }}
             </td>
             <td>
                 <input [checked]="provider.ativo" class="check-box" disabled="disabled" type="checkbox">
