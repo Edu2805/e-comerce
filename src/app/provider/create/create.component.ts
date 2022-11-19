@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChildren } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControlName, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { fromEvent, merge, Observable } from 'rxjs';
 import { CpfCnpjValidators } from 'src/app/utils/document-validators-form';
@@ -35,7 +36,8 @@ export class CreateComponent implements OnInit {
   constructor(private fb: FormBuilder,
     private providerService: ProviderService,
     private router: Router,
-    private toastr: ToastrService) {
+    private toastr: ToastrService,
+    private spinner: NgxSpinnerService) {
 
     this.validationMessages = {
       nome: {
@@ -134,6 +136,7 @@ export class CreateComponent implements OnInit {
   }
 
   findCep(event: Event) {
+    this.spinner.show();
     let cep = (event.target as HTMLInputElement).value;
     cep = StringUtils.onlyNumber(cep);
     if (cep.length < 8) return;
@@ -141,7 +144,10 @@ export class CreateComponent implements OnInit {
     this.providerService.queryCep(cep)
       .subscribe(
         cepRetorno => this.fillAddressQuery(cepRetorno),
-        erro => this.errors.push(erro));
+        erro => {
+          this.errors.push(erro),
+          this.spinner.hide();
+        });
   }
 
   fillAddressQuery(queryCep: QueryCep) {
@@ -154,9 +160,11 @@ export class CreateComponent implements OnInit {
         estado: queryCep.uf
       }
     });
+    this.spinner.hide();
   }
 
   addProvider() {
+    this.spinner.show();
     if (this.providerForm.dirty && this.providerForm.valid) {
       this.provider = Object.assign({}, this.provider, this.providerForm.value);
       this.formResult = JSON.stringify(this.provider);
@@ -182,6 +190,7 @@ export class CreateComponent implements OnInit {
     if (toast) {
       toast.onHidden.subscribe(() => {
         this.router.navigate(['/fornecedores/listar-todos']);
+        this.spinner.hide();
       });
     }
   }
@@ -189,6 +198,7 @@ export class CreateComponent implements OnInit {
   processFail(fail: any) {
     this.errors = fail.error.errors;
     this.toastr.error('Ocorreu um erro!', 'Opa :(');
+    this.spinner.hide();
   }
 
   documentMask(): string {
