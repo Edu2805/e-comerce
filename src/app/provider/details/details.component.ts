@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { Fornecedor } from '../models/providerEntity';
 import { ProviderService } from '../services/provider.service';
@@ -12,7 +13,8 @@ export class DetailsComponent {
 
   provider: Fornecedor = new Fornecedor();
 
-  constructor(private route: ActivatedRoute, private providerService: ProviderService) {
+  constructor(private route: ActivatedRoute, 
+    private providerService: ProviderService) {
 
     this.provider = this.route.snapshot.data['provider'];
   }
