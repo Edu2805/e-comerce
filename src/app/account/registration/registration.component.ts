@@ -7,6 +7,7 @@ import { DisplayMessage, GenericValidator, ValidationMessages } from 'src/app/ut
 import { SystemUser } from '../models/systemuser';
 import { AccountService } from '../services/account.service';
 import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-registration',
@@ -28,7 +29,8 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
   constructor(private fb: FormBuilder, 
     private accountService: AccountService,
     private router: Router,
-    private toastrService: ToastrService) { 
+    private toastrService: ToastrService,
+    private spinner: NgxSpinnerService) { 
 
     this.validationMessages = {
       email: {
@@ -72,6 +74,7 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
   }
 
   addAccount() {
+    this.spinner.show();
     if (this.registrationForm.dirty && this.registrationForm.valid) {
       this.user = Object.assign({}, this.user, this.registrationForm.value);
 
@@ -93,6 +96,7 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
     if (toast) {
       toast.onHidden.subscribe(() => {
         this.router.navigate(['/home']);
+        this.spinner.hide();
       });
     }
   }
@@ -100,6 +104,7 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
   processFailure(fail: any) {
     this.errors = fail.error.errors;
     this.toastrService.error('Ocorreu um erro', 'Erro');
+    this.spinner.hide();
   }
 
 }

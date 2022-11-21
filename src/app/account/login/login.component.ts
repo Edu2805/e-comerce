@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChildren } from '@angular/core';
 import { FormBuilder, FormControl, FormControlName, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CustomValidators } from 'ng2-validation';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { fromEvent, merge, Observable } from 'rxjs';
 import { DisplayMessage, GenericValidator, ValidationMessages } from 'src/app/utils/generic-form-validation';
@@ -27,7 +28,8 @@ export class LoginComponent implements OnInit {
   constructor(private fb: FormBuilder, 
     private accountService: AccountService,
     private router: Router,
-    private toastrService: ToastrService) { 
+    private toastrService: ToastrService,
+    private spinner: NgxSpinnerService) { 
 
     this.validationMessages = {
       email: {
@@ -60,6 +62,7 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
+    this.spinner.show();
     if (this.loginForm.dirty && this.loginForm.valid) {
       this.user = Object.assign({}, this.user, this.loginForm.value);
 
@@ -80,6 +83,7 @@ export class LoginComponent implements OnInit {
     if (toast) {
       toast.onHidden.subscribe(() => {
         this.router.navigate(['/home']);
+        this.spinner.hide();
       });
     }
   }
@@ -87,6 +91,7 @@ export class LoginComponent implements OnInit {
   processFailure(fail: any) {
     this.errors = fail.error.errors;
     this.toastrService.error('Ocorreu um erro', 'Erro');
+    this.spinner.hide();
   }
 
 }

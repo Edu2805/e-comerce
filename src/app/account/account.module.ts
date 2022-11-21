@@ -10,6 +10,7 @@ import { HttpClientModule } from '@angular/common/http'
 import { AccountService } from './services/account.service';
 import { NarikCustomValidatorsModule } from '@narik/custom-validators';
 import { AccountGuard } from './services/account.guard';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { AccountGuard } from './services/account.guard';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    NarikCustomValidatorsModule
+    NarikCustomValidatorsModule,
+    NgxSpinnerModule
   ],
   providers: [
     AccountService,

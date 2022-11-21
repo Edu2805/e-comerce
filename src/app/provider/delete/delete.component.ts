@@ -15,6 +15,7 @@ export class DeleteComponent {
 
   provider: Fornecedor = new Fornecedor();
   addressMap;
+  errors: any[] = [];
 
   constructor(
     private providerService: ProviderService,
@@ -39,7 +40,7 @@ export class DeleteComponent {
     this.providerService.deleteProvider(this.provider.id)
       .subscribe(
         event => { this.successExclusion(event)},
-        error => { this.fail() }
+        error => { this.failDelete(error) }
       );
   }
 
@@ -47,13 +48,14 @@ export class DeleteComponent {
     const toast = this.toastr.success('Fornecedor excluido com Sucesso!', 'Good bye :D');
     if (toast) {
       toast.onHidden.subscribe(() => {
-        this.spinner.hide()
         this.router.navigate(['/fornecedores/listar-todos']);
+        this.spinner.hide()
       });
     }
   }
 
-  fail() {
+  failDelete(fail) {
+    this.errors = fail.error.errors;
     this.toastr.error('Houve um erro no processamento!', 'Ops! :(');
     this.spinner.hide();
   }
