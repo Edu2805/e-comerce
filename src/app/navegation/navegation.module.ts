@@ -2,6 +2,7 @@ import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AccessDaniedComponent } from "./access-denied/access-denied.component";
 
 import { FooterComponent } from "./footer/footer.component";
 import { HomeComponent } from "./home/home.component";
@@ -15,7 +16,8 @@ import { NotFoundComponent } from "./not-found/not-found.component";
         HomeComponent,
         FooterComponent,
         MenuLoginComponent,
-        NotFoundComponent
+        NotFoundComponent,
+        AccessDaniedComponent
     ],
     imports: [
         CommonModule,
@@ -27,7 +29,8 @@ import { NotFoundComponent } from "./not-found/not-found.component";
         HomeComponent,
         FooterComponent,
         MenuLoginComponent,
-        NotFoundComponent
+        NotFoundComponent,
+        AccessDaniedComponent
     ]
 })
 export class NavegationModule {  }
