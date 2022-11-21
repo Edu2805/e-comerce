@@ -178,14 +178,14 @@ export class CreateComponent implements OnInit {
           success => { this.processSuccess(success) },
           fail => { this.processFail(fail) }
         );
-        this.unsavedChanges = false;
     }
   }
 
   processSuccess(response: any) {
     this.providerForm.reset();
     this.errors = [];
-
+    this.unsavedChanges = false;
+    
     let toast = this.toastr.success('Fornecedor cadastrado com sucesso!', 'Sucesso!');
     if (toast) {
       toast.onHidden.subscribe(() => {

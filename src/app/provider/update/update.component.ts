@@ -204,6 +204,7 @@ export class UpdateComponent implements OnInit {
   }
 
   editProvider() {
+    this.spinner.show();
     if (this.providerForm.dirty && this.providerForm.valid) {
       this.provider = Object.assign({}, this.provider, this.providerForm.value);
       this.provider.documento = StringUtils.onlyNumber(this.provider.documento);
@@ -234,6 +235,7 @@ export class UpdateComponent implements OnInit {
   processSuccessAddress(address: Endereco) {
     this.errors = [];
 
+    this.spinner.hide();
     this.toastr.success('Endereço atualizado com sucesso!', 'Sucesso!');
     this.provider.endereco = address
     this.modalService.dismissAll();
@@ -241,6 +243,7 @@ export class UpdateComponent implements OnInit {
 
   processFailAddress(fail: any) {
     this.errorsAddress = fail.error.errors;
+    this.spinner.hide();
     this.toastr.error('Ocorreu um erro!', 'Opa :(');
   }
 
