@@ -21,7 +21,7 @@ export class ProviderGuardService implements CanActivate, CanDeactivate<CreateCo
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
 
         if (!this.localStorageUtils.obterTokenUsuario()) {
-            this.router.navigate(['/conta/login'])
+            this.router.navigate(['/conta/login'], { queryParams: { returnUrl: this.router.url }})
         }
 
         let user = this.localStorageUtils.obterUsuario();

@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChildren } from '@angular/core';
 import { FormBuilder, FormControlName, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { fromEvent, merge, Observable } from 'rxjs';
 import { CurrencyUtils } from 'src/app/utils/currency-utils';
@@ -40,7 +41,8 @@ export class UpdateComponent implements OnInit {
     private produtoService: ProductService,
     private router: Router,
     private route: ActivatedRoute,
-    private toastr: ToastrService) {
+    private toastr: ToastrService,
+    private spinner: NgxSpinnerService) {
 
     this.validationMessages = {
       fornecedorId: {
@@ -69,7 +71,7 @@ export class UpdateComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    this.spinner.show();
     this.produtoService.getAllProviders()
       .subscribe(
         fornecedores => this.providers = fornecedores);
@@ -92,6 +94,10 @@ export class UpdateComponent implements OnInit {
       valor: CurrencyUtils.DecimalToParse(this.product.valor)
     });
     this.originalImageSrc = this.images + this.product.imagem;
+
+    setTimeout(() => {
+      this.spinner.hide();
+    }, 2000);
   }
 
   ngAfterViewInit(): void {
@@ -105,6 +111,7 @@ export class UpdateComponent implements OnInit {
   }
 
   updateProduct() {
+    this.spinner.show();
     if (this.productForm.dirty && this.productForm.valid) {
       this.product = Object.assign({}, this.product, this.productForm.value);
 
@@ -132,6 +139,7 @@ export class UpdateComponent implements OnInit {
     if (toast) {
       toast.onHidden.subscribe(() => {
         this.router.navigate(['/produtos/listar-todos']);
+        this.spinner.hide();
       });
     }
   }
@@ -139,6 +147,7 @@ export class UpdateComponent implements OnInit {
   proccessFail(fail: any) {
     this.errors = fail.error.errors;
     this.toastr.error('Ocorreu um erro!', 'Opa :(');
+    this.spinner.hide();
   } 
 
   upload(file: any) {

@@ -101,6 +101,7 @@ export class CreateComponent implements OnInit {
   }
 
   addProduct() {
+    this.spinner.show();
     if (this.productForm.dirty && this.productForm.valid) {
       this.product = Object.assign({}, this.product, this.productForm.value);
 
@@ -128,6 +129,7 @@ export class CreateComponent implements OnInit {
     if (toast) {
       toast.onHidden.subscribe(() => {
         this.router.navigate(['/produtos/listar-todos']);
+        this.spinner.hide();
       });
     }
   }
@@ -135,6 +137,7 @@ export class CreateComponent implements OnInit {
   processFail(fail: any) {
     this.errors = fail.error.errors;
     this.toastr.error('Ocorreu um erro!', 'Opa :(');
+    this.spinner.hide();
   }
 
   documentMask(): string {
