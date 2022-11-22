@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from 'src/environments/environment';
 import { Produto } from '../models/product';
@@ -18,12 +19,16 @@ export class DeleteComponent {
   constructor(private productService: ProductService,
     private route: ActivatedRoute,
     private router: Router,
-    private toastr: ToastrService) {
+    private toastr: ToastrService,
+    private spinner: NgxSpinnerService) {
 
-    this.product = this.route.snapshot.data['produto'];
+      spinner.show();
+      this.product = this.route.snapshot.data['produto'];
+      spinner.hide();
   }
 
   public deleteProduct() {
+    this.spinner.show();
     this.productService.deleteProduct(this.product.id)
       .subscribe(
       evento => { this.deleteSuccess(evento) },
@@ -32,17 +37,18 @@ export class DeleteComponent {
   }
 
   public deleteSuccess(evento: any) {
-
     const toast = this.toastr.success('Produto excluido com Sucesso!', 'Good bye :D');
     if (toast) {
       toast.onHidden.subscribe(() => {
         this.router.navigate(['/produtos/listar-todos']);
+        this.spinner.hide()
       });
     }
   }
 
   public failProcess() {
     this.toastr.error('Houve um erro no processamento!', 'Ops! :(');
+    this.spinner.hide()
   }
 
 }

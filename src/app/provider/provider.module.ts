@@ -8,6 +8,7 @@ import { CnpjPipe, CpfPipe } from "../utils/pipes/documents.pipe";
 import { CreateComponent } from "./create/create.component";
 import { DeleteComponent } from "./delete/delete.component";
 import { DetailsComponent } from "./details/details.component";
+import { ProductListComponent } from "./products/product-list.component";
 import { ProviderAppComponent } from "./provider.app.component";
 import { ProviderRoutingModule } from "./provider.route";
 import { ReadComponent } from "./read/read.component";
@@ -24,6 +25,7 @@ import { UpdateComponent } from "./update/update.component";
       UpdateComponent,
       DeleteComponent,
       DetailsComponent,
+      ProductListComponent,
       CepPipe,
       CpfPipe,
       CnpjPipe

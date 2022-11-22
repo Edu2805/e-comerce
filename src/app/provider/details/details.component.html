@@ -51,6 +51,8 @@
         </div>
     </div>
 
+    <product-list [products]="provider.produtos"></product-list>
+
     <div>
         <a class="btn btn-dark" [routerLink]="['/fornecedores/editar',provider.id]">Editar</a>&nbsp;
         <a class="btn btn-info" [routerLink]="['/fornecedores/listar-todos']">Voltar</a>

@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChildren } from '@angular/core';
 import { FormBuilder, FormControl, FormControlName, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CustomValidators } from 'ng2-validation';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
@@ -24,12 +24,14 @@ export class LoginComponent implements OnInit {
   validationMessages: ValidationMessages;
   genericValidation: GenericValidator;
   displayMessage: DisplayMessage = {};
+  returnUrl: string;
 
   constructor(private fb: FormBuilder, 
     private accountService: AccountService,
     private router: Router,
     private toastrService: ToastrService,
-    private spinner: NgxSpinnerService) { 
+    private spinner: NgxSpinnerService,
+    private route: ActivatedRoute) { 
 
     this.validationMessages = {
       email: {
@@ -41,6 +43,7 @@ export class LoginComponent implements OnInit {
         rangeLength: 'A senha deve possuir entre 6 e 15 caracteres'
       }
     };
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'];
     this.genericValidation = new GenericValidator(this.validationMessages);
 
   }
@@ -82,7 +85,9 @@ export class LoginComponent implements OnInit {
     let toast = this.toastrService.success('Login realizado com sucesso', 'Bem vindo (a)!');
     if (toast) {
       toast.onHidden.subscribe(() => {
-        this.router.navigate(['/home']);
+        this.returnUrl 
+        ? this.router.navigate([this.returnUrl])
+        : this.router.navigate(['/home']);
         this.spinner.hide();
       });
     }

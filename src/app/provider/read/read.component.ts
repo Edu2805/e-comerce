@@ -27,7 +27,9 @@ export class ReadComponent implements OnInit {
         this.providers = providers,
         this.spinner.hide();
       },
-      fail => { this.processFail(fail) }
+      fail => { 
+        this.processFail(fail) 
+      }
     );
   }
 
