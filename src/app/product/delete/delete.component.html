@@ -1,1 +1,64 @@
-<p>delete works!</p>
+<div class="container main-container">
+    <h4>Excluir {{ product.nome }} </h4>
+    <br>
+    <h5>Você tem certeza disso?</h5>
+
+    <div class="row">
+        <div class="col-md-4">
+            <img 
+                src="{{ images }}{{ product.imagem }}" 
+                style="width: 300px; height: 428px">
+        </div>
+        <div class="col-md-6">
+            <dl>
+                <dt>
+                    Fornecedor
+                </dt>
+                <dd>
+                    {{ product.nomeFornecedor }}
+                </dd>
+                <dt>
+                    Nome
+                </dt>
+                <dd>
+                    {{ product.nome }}
+                </dd>
+                <dt>
+                    Descrição
+                </dt>
+                <dd>
+                    {{ product.descricao }}
+                </dd>
+                <dt>
+                    Valor
+                </dt>
+                <dd>
+                    {{ product.valor | currency : 'R$ '  }}
+                </dd>
+                <dt>
+                    DataCadastro
+                </dt>
+                <dd>
+                    {{ product.dataCadastro | date:'dd/MM/yyyy' }}
+                </dd>
+                <dt>
+                    Ativo?
+                </dt>
+                <dd>
+                    <input 
+                        [checked]="product.ativo" 
+                        class="check-box" 
+                        disabled="disabled" 
+                        type="checkbox"
+                    >
+                </dd>
+            </dl>
+
+            <div>
+                <a (click)="deleteProduct()" href="javascript:void(0)" class="btn btn-danger">Excluir</a>&nbsp;
+                <a class="btn btn-info" href="javascript:window.history.back();">Voltar</a>
+            </div>
+        </div>
+    </div>
+
+</div>

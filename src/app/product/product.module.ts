@@ -10,6 +10,8 @@ import { DetailsComponent } from "./details/details.component";
 import { ProductAppComponent } from "./product.app.component";
 import { ProductRoutingModule } from "./product.route";
 import { ReadComponent } from "./read/read.component";
+import { ProductGuard } from "./services/product.guard";
+import { ProductResolve } from "./services/product.resolve";
 import { ProductService } from "./services/product.service";
 import { UpdateComponent } from "./update/update.component";
 
@@ -35,6 +37,8 @@ import { UpdateComponent } from "./update/update.component";
     ],
     providers: [
         ProductService,
+        ProductResolve,
+        ProductGuard
     ]
 })
 export class ProductModule {}

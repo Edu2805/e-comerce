@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { environment } from 'src/environments/environment';
 import { Produto } from '../models/product';
 import { ProductService } from '../services/product.service';
 
@@ -11,6 +12,7 @@ export class ReadComponent implements OnInit {
 
   public products: Produto[];
   errorMessage: string;
+  images: string = environment.imagesUrl;
 
   constructor(private productService: ProductService) { }
 
