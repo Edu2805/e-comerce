@@ -1,15 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { environment } from 'src/environments/environment';
+import { Produto } from '../models/product';
 
 @Component({
   selector: 'app-details',
   templateUrl: './details.component.html',
   styleUrls: ['./details.component.scss']
 })
-export class DetailsComponent implements OnInit {
+export class DetailsComponent {
 
-  constructor() { }
+  product: Produto;
+  images: string = environment.imagesUrl;
 
-  ngOnInit(): void {
+  constructor(private route: ActivatedRoute) {
+
+    this.product = this.route.snapshot.data['produto'];
   }
 
 }

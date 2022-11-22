@@ -30,4 +30,26 @@ export class ProductService extends BaseService {
             .get<Produto[]>(this.UrlServiceV1 + "produtos", super.GetAuthHeaderJson())
             .pipe(catchError(super.serviceError));
     }
+
+    findById(id: string): Observable<Produto> {
+        return this.http
+            .get<Produto>(this.UrlServiceV1 + "produtos/" + id, super.GetAuthHeaderJson())
+            .pipe(catchError(super.serviceError));
+    }
+
+    updateProduct(produto: Produto): Observable<Produto> {
+        return this.http
+            .put(this.UrlServiceV1 + "produtos/" + produto.id, produto, super.GetAuthHeaderJson())
+            .pipe(
+                map(super.extractData),
+                catchError(super.serviceError));
+    }
+
+    deleteProduct(id: string): Observable<Produto> {
+        return this.http
+            .delete(this.UrlServiceV1 + "produtos/" + id, super.GetAuthHeaderJson())
+            .pipe(
+                map(super.extractData),
+                catchError(super.serviceError));
+    }    
 }
