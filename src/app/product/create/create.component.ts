@@ -1,13 +1,11 @@
 import { Component, ElementRef, OnInit, ViewChildren } from '@angular/core';
-import { FormBuilder, FormControlName, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControlName, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Dimensions, ImageCroppedEvent, ImageTransform } from 'ngx-image-cropper';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
-import { fromEvent, merge, Observable } from 'rxjs';
 import { CurrencyUtils } from 'src/app/utils/currency-utils';
-import { DisplayMessage, GenericValidator, ValidationMessages } from 'src/app/utils/generic-form-validation';
-import { Fornecedor, Produto } from '../models/product';
+import { ProductBaseComponent } from '../product-form.base.component';
 import { ProductService } from '../services/product.service';
 
 @Component({
@@ -15,7 +13,7 @@ import { ProductService } from '../services/product.service';
   templateUrl: './create.component.html',
   styleUrls: ['./create.component.scss']
 })
-export class CreateComponent implements OnInit {
+export class CreateComponent extends ProductBaseComponent implements OnInit {
 
   @ViewChildren(FormControlName, { read: ElementRef }) formInputElements: ElementRef[];
 
@@ -30,49 +28,11 @@ export class CreateComponent implements OnInit {
   imageURL: string;
   imageName: string;
 
-  product: Produto;
-  fornecedores: Fornecedor[];
-  errors: any[] = [];
-  productForm: FormGroup;
-
-  validationMessages: ValidationMessages;
-  genericValidator: GenericValidator;
-  displayMessage: DisplayMessage = {};
-
-  formResult: string = '';
-
-  unsaveChanges: boolean;
-
   constructor(private fb: FormBuilder,
     private productService: ProductService,
     private router: Router,
     private toastr: ToastrService,
-    private spinner: NgxSpinnerService) {
-
-    this.validationMessages = {
-      fornecedorId: {
-        required: 'Escolha um fornecedor',
-      },
-      nome: {
-        required: 'Informe o Nome',
-        minlength: 'Mínimo de 2 caracteres',
-        maxlength: 'Máximo de 200 caracteres'
-      },
-      descricao: {
-        required: 'Informe a Descrição',
-        minlength: 'Mínimo de 2 caracteres',
-        maxlength: 'Máximo de 1000 caracteres'
-      },
-      imagem: {
-        required: 'Informe a Imagem',
-      },
-      valor: {
-        required: 'Informe o Valor',
-      }
-    };
-
-    this.genericValidator = new GenericValidator(this.validationMessages);
-  }
+    private spinner: NgxSpinnerService) { super(); }
 
   ngOnInit(): void {
 
@@ -91,13 +51,7 @@ export class CreateComponent implements OnInit {
   }
 
   ngAfterViewInit(): void {
-    let controlBlurs: Observable<any>[] = this.formInputElements
-      .map((formControl: ElementRef) => fromEvent(formControl.nativeElement, 'blur'));
-
-    merge(...controlBlurs).subscribe(() => {
-      this.displayMessage = this.genericValidator.processarMensagens(this.productForm);
-      this.unsaveChanges = true;
-    });
+    super.validatorsConfigForm(this.formInputElements);
   }
 
   addProduct() {

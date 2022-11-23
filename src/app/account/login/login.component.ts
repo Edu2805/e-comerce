@@ -1,11 +1,10 @@
 import { Component, ElementRef, OnInit, ViewChildren } from '@angular/core';
-import { FormBuilder, FormControl, FormControlName, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControlName, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CustomValidators } from 'ng2-validation';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
-import { fromEvent, merge, Observable } from 'rxjs';
-import { DisplayMessage, GenericValidator, ValidationMessages } from 'src/app/utils/generic-form-validation';
+import { FormBaseComponent } from 'src/app/base-components/form-base.components';
 import { SystemUser } from '../models/systemuser';
 import { AccountService } from '../services/account.service';
 
@@ -14,16 +13,13 @@ import { AccountService } from '../services/account.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent extends FormBaseComponent implements OnInit {
 
   @ViewChildren(FormControlName, {read: ElementRef}) formInputElements: ElementRef[];
 
   errors: any[] = [];
   loginForm: FormGroup;
   user: SystemUser;
-  validationMessages: ValidationMessages;
-  genericValidation: GenericValidator;
-  displayMessage: DisplayMessage = {};
   returnUrl: string;
 
   constructor(private fb: FormBuilder, 
@@ -33,6 +29,7 @@ export class LoginComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private route: ActivatedRoute) { 
 
+      super();
     this.validationMessages = {
       email: {
         required: 'Informe o e-mail',
@@ -44,7 +41,7 @@ export class LoginComponent implements OnInit {
       }
     };
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'];
-    this.genericValidation = new GenericValidator(this.validationMessages);
+    super.messageConfigValidatorBase(this.validationMessages);
 
   }
 
@@ -56,12 +53,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngAfterViewInit(): void {
-    let controlBlurs: Observable<any>[] = this.formInputElements
-      .map((formControl: ElementRef) => fromEvent(formControl.nativeElement, 'blur'));
-
-    merge(...controlBlurs).subscribe(() => {
-      this.displayMessage = this.genericValidation.processarMensagens(this.loginForm);
-    })
+    super.formConfigValidatorsBase(this.formInputElements, this.loginForm);
   }
 
   login() {
