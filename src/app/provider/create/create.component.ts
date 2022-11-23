@@ -3,9 +3,8 @@ import { AbstractControl, FormBuilder, FormControlName, FormGroup, Validators } 
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
-import { fromEvent, merge, Observable } from 'rxjs';
+import { FormBaseComponent } from 'src/app/base-components/form-base.components';
 import { CpfCnpjValidators } from 'src/app/utils/document-validators-form';
-import { DisplayMessage, GenericValidator, ValidationMessages } from 'src/app/utils/generic-form-validation';
 import { StringUtils } from 'src/app/utils/string-utils';
 import { QueryCep } from '../models/address';
 import { Fornecedor } from '../models/providerEntity';
@@ -16,7 +15,7 @@ import { ProviderService } from '../services/provider.service';
   templateUrl: './create.component.html',
   styleUrls: ['./create.component.scss']
 })
-export class CreateComponent implements OnInit {
+export class CreateComponent extends FormBaseComponent implements OnInit {
 
   @ViewChildren(FormControlName, { read: ElementRef }) formInputElements: ElementRef[];
 
@@ -24,14 +23,10 @@ export class CreateComponent implements OnInit {
   providerForm: FormGroup;
   provider: Fornecedor = new Fornecedor();
 
-  validationMessages: ValidationMessages;
-  genericValidation: GenericValidator;
-  displayMessage: DisplayMessage = {};
   vaidateDocument: any;
   documentText: string = 'CPF (requerido)';
 
   formResult: string= '';
-  unsavedChanges: boolean;
   
   constructor(private fb: FormBuilder,
     private providerService: ProviderService,
@@ -39,6 +34,7 @@ export class CreateComponent implements OnInit {
     private toastr: ToastrService,
     private spinner: NgxSpinnerService) {
 
+    super();
     this.validationMessages = {
       nome: {
         required: 'Informe o Nome',
@@ -67,7 +63,7 @@ export class CreateComponent implements OnInit {
         required: 'Informe o Estado',
       }
     };
-    this.genericValidation = new GenericValidator(this.validationMessages);
+    super.messageConfigValidatorBase(this.validationMessages);
   }
 
   ngOnInit() {
@@ -94,25 +90,11 @@ export class CreateComponent implements OnInit {
     this.providerFormType().valueChanges
       .subscribe(() => {
         this.changeValidateDocumentType();
-        this.validateElementsConfig();
-        this.formValidate();
+        super.formConfigValidatorsBase(this.formInputElements, this.providerForm);
+        super.validateForm(this.providerForm);
       })
 
-    this.validateElementsConfig();
-  }
-
-  validateElementsConfig() {
-    let controlBlurs: Observable<any>[] = this.formInputElements
-      .map((formControl: ElementRef) => fromEvent(formControl.nativeElement, 'blur'));
-
-    merge(...controlBlurs).subscribe(() => {
-      this.formValidate();
-    })
-  }
-
-  formValidate() {
-    this.displayMessage = this.genericValidation.processarMensagens(this.providerForm);
-    this.unsavedChanges = true;
+    super.formConfigValidatorsBase(this.formInputElements, this.providerForm);
   }
 
   changeValidateDocumentType() {
@@ -185,7 +167,7 @@ export class CreateComponent implements OnInit {
   processSuccess(response: any) {
     this.providerForm.reset();
     this.errors = [];
-    this.unsavedChanges = false;
+    this.unsaveChanges = false;
     
     let toast = this.toastr.success('Fornecedor cadastrado com sucesso!', 'Sucesso!');
     if (toast) {

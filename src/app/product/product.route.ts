@@ -18,12 +18,12 @@ const productRouterConfig: Routes = [
                 path: 'adicionar-novo', component: CreateComponent,
                 canDeactivate: [ProductGuard],
                 canActivate: [ProductGuard],
-                data: [{ claim: { nome: 'Produto', valor: 'Adicionar' } }],
+                data: [{ claim: { name: 'Produto', value: 'Adicionar' } }],
             },
             {
                 path: 'editar/:id', component: UpdateComponent,
                 canActivate: [ProductGuard],
-                data: [{ claim: { nome: 'Produto', valor: 'Atualizar' } }],
+                data: [{ claim: { name: 'Produto', value: 'Atualizar' } }],
                 resolve: {
                     produto: ProductResolve
                 }
@@ -37,7 +37,7 @@ const productRouterConfig: Routes = [
             {
                 path: 'excluir/:id', component: DeleteComponent,
                 canActivate: [ProductGuard],
-                data: [{ claim: { nome: 'Produto', valor: 'Excluir' } }],
+                data: [{ claim: { name: 'Produto', value: 'Excluir' } }],
                 resolve: {
                     produto: ProductResolve
                 }

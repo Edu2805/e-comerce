@@ -2,28 +2,24 @@ import { AfterViewInit, Component, ElementRef, OnInit, ViewChildren } from '@ang
 import { FormBuilder, FormControl, FormControlName, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CustomValidators } from '@narik/custom-validators';
-import { fromEvent, merge, Observable } from 'rxjs';
-import { DisplayMessage, GenericValidator, ValidationMessages } from 'src/app/utils/generic-form-validation';
 import { SystemUser } from '../models/systemuser';
 import { AccountService } from '../services/account.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { FormBaseComponent } from 'src/app/base-components/form-base.components';
 
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
   styleUrls: ['./registration.component.scss']
 })
-export class RegistrationComponent implements OnInit, AfterViewInit {
+export class RegistrationComponent extends FormBaseComponent implements OnInit, AfterViewInit {
 
   @ViewChildren(FormControlName, {read: ElementRef}) formInputElements: ElementRef[];
 
   errors: any[] = [];
   registrationForm: FormGroup;
   user: SystemUser;
-  validationMessages: ValidationMessages;
-  genericValidation: GenericValidator;
-  displayMessage: DisplayMessage = {};
   unsavedChanges: boolean;
 
   constructor(private fb: FormBuilder, 
@@ -32,6 +28,7 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
     private toastrService: ToastrService,
     private spinner: NgxSpinnerService) { 
 
+    super();
     this.validationMessages = {
       email: {
         required: 'Informe o e-mail',
@@ -47,7 +44,7 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
         equalTo: 'As senhas não conferem'
       }
     };
-    this.genericValidation = new GenericValidator(this.validationMessages);
+    super.messageConfigValidatorBase(this.validationMessages);
 
   }
 
@@ -64,13 +61,7 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    let controlBlurs: Observable<any>[] = this.formInputElements
-      .map((formControl: ElementRef) => fromEvent(formControl.nativeElement, 'blur'));
-
-    merge(...controlBlurs).subscribe(() => {
-      this.displayMessage = this.genericValidation.processarMensagens(this.registrationForm);
-      this.unsavedChanges = true;
-    })
+    super.formConfigValidatorsBase(this.formInputElements, this.registrationForm);
   }
 
   addAccount() {
