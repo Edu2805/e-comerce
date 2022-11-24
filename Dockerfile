@@ -4,10 +4,10 @@ WORKDIR /app
 COPY package.json /app
 RUN npm install --force
 COPY . /app
-RUN $(npm bin)/ng build --prod
+RUN npm run build --prod
 
 FROM nginx
 COPY nginx.conf /etc/nginx/nginx.conf
-COPY --from=ng-builder /app/dist/front-end /usr/share/nginc/html
+COPY --from=ng-builder /app/dist/front-end /usr/share/nginx/html
 
 EXPOSE 80
