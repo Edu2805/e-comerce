@@ -59,7 +59,7 @@ export class UpdateComponent extends ProductBaseComponent implements OnInit {
       nome: this.product.nome,
       descricao: this.product.descricao,
       ativo: this.product.ativo,
-      valor: CurrencyUtils.DecimalToParse(this.product.valor)
+      valor: this.product.valor
     });
     this.originalImageSrc = this.images + this.product.imagem;
 

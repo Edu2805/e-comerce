@@ -136,7 +136,7 @@
                             formControlName="valor" 
                             [allowNegativeNumbers]="false"
                             mask="separator.2" 
-                            [dropSpecialCharacters]="false"
+                            thousandSeparator="."
                             [ngClass]="{'is-invalid': displayMessage.valor }" 
                         />
                         <span class="text-danger" *ngIf="displayMessage.valor">
