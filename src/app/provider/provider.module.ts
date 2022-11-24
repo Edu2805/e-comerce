@@ -16,6 +16,11 @@ import { ProviderGuardService } from "./services/provider.guard";
 import { ProviderResolve } from "./services/provider.resolve";
 import { ProviderService } from "./services/provider.service";
 import { UpdateComponent } from "./update/update.component";
+import { DEFAULT_CURRENCY_CODE, LOCALE_ID } from '@angular/core';
+import ptBr from '@angular/common/locales/pt';
+import { registerLocaleData } from '@angular/common';
+
+registerLocaleData(ptBr);
 
 @NgModule({
     declarations: [
@@ -35,14 +40,23 @@ import { UpdateComponent } from "./update/update.component";
       ProviderRoutingModule,
       FormsModule,
       ReactiveFormsModule,
-      NgxMaskModule.forRoot(),
+      NgxMaskModule.forRoot({
+        dropSpecialCharacters: false
+      }),
       NgxSpinnerModule
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     providers: [
       ProviderService,
       ProviderResolve,
-      ProviderGuardService
+      ProviderGuardService,
+      {
+        provide: LOCALE_ID, useValue: 'pt' 
+    },
+    {
+        provide:  DEFAULT_CURRENCY_CODE,
+        useValue: 'BRL'
+    }
     ]
   })
   export class ProviderModule { }

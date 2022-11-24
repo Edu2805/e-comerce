@@ -14,6 +14,11 @@ import { ProductGuard } from "./services/product.guard";
 import { ProductResolve } from "./services/product.resolve";
 import { ProductService } from "./services/product.service";
 import { UpdateComponent } from "./update/update.component";
+import { DEFAULT_CURRENCY_CODE, LOCALE_ID } from '@angular/core';
+import ptBr from '@angular/common/locales/pt';
+import { registerLocaleData } from '@angular/common';
+
+registerLocaleData(ptBr);
 
 @NgModule({
     declarations: [
@@ -30,15 +35,24 @@ import { UpdateComponent } from "./update/update.component";
         NgxSpinnerModule,
         FormsModule,
         ReactiveFormsModule,
-        NgxMaskModule.forRoot(),
+        NgxMaskModule.forRoot({
+            dropSpecialCharacters: false
+        }),
         NgxSpinnerModule,
-        ImageCropperModule
+        ImageCropperModule,
 
     ],
     providers: [
         ProductService,
         ProductResolve,
-        ProductGuard
+        ProductGuard,
+        {
+            provide: LOCALE_ID, useValue: 'pt' 
+        },
+        {
+            provide:  DEFAULT_CURRENCY_CODE,
+            useValue: 'BRL'
+        }
     ]
 })
 export class ProductModule {}
