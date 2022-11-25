@@ -2,7 +2,7 @@
 
 
 <h1 align="center">🛒  Angular project - E-Comerce 🛒</h1>
-<h2 align="center"> 💻 Advanced Angular project using some functional programming concepts. 💻</h2>
+<h2 align="center"> 💻 Advanced Angular project using some functional programming concepts.</h2>
 
 ### New features
 * RXJS - Observables
@@ -20,28 +20,28 @@
 ### Some Screens
 
 Login screen
-<p align="center"><img height="430px" src="https://github.com/Edu2805/e-comerce/blob/eduardo/fron-tend/src/assets/Tela_inicial.png" width="640px"/></p>
+<p align="center"><img height="430px" src="https://github.com/Edu2805/e-comerce/blob/fron-tend/src/assets/Tela_inicial.png" width="640px"/></p>
 
 Login form
-<p align="center"><img height="430px" src="https://github.com/Edu2805/e-comerce/blob/eduardo/fron-tend/src/assets/Login_form.png" width="640px"/></p>
+<p align="center"><img height="430px" src="https://github.com/Edu2805/e-comerce/blob/fron-tend/src/assets/Login_form.png" width="640px"/></p>
 
 Provider list
-<p align="center"><img height="430px" src="https://github.com/Edu2805/e-comerce/blob/eduardo/fron-tend/src/assets/Lista_fornecedor.png" width="640px"/></p>
+<p align="center"><img height="430px" src="https://github.com/Edu2805/e-comerce/blob/fron-tend/src/assets/Lista_fornecedor.png" width="640px"/></p>
 
 Product form
-<p align="center"><img height="430px" src="https://github.com/Edu2805/e-comerce/blob/eduardo/fron-tend/src/assets/Produto_form.png" width="640px"/></p>
+<p align="center"><img height="430px" src="https://github.com/Edu2805/e-comerce/blob/fron-tend/src/assets/Produto_form.png" width="640px"/></p>
 
 Product form (With image cropper and validators)
-<p align="center"><img height="430px" src="https://github.com/Edu2805/e-comerce/blob/eduardo/fron-tend/src/assets/Produto_form.png" width="640px"/></p>
+<p align="center"><img height="430px" src="https://github.com/Edu2805/e-comerce/blob/fron-tend/src/assets/Produto_form.png" width="640px"/></p>
 
 Provider Details
-<p align="center"><img height="430px" src="https://github.com/Edu2805/e-comerce/blob/eduardo/fron-tend/src/assets/Detalhes.png" width="640px"/></p>
+<p align="center"><img height="430px" src="https://github.com/Edu2805/e-comerce/blob/fron-tend/src/assets/Detalhes.png" width="640px"/></p>
 
 Spinner loading
-<p align="center"><img height="430px" src="https://github.com/Edu2805/e-comerce/blob/eduardo/fron-tend/src/assets/Spinner.png" width="640px"/></p>
+<p align="center"><img height="430px" src="https://github.com/Edu2805/e-comerce/blob/fron-tend/src/assets/Spinner.png" width="640px"/></p>
 
 Toast Service
-<p align="center"><img height="80px" src="https://github.com/Edu2805/e-comerce/blob/eduardo/fron-tend/src/assets/Toast.png" width="280px"/></p>
+<p align="center"><img height="80px" src="https://github.com/Edu2805/e-comerce/blob/fron-tend/src/assets/Toast.png" width="280px"/></p>
 
 ## How to use the application
 ### You will have to run the backend in Docker, follow the steps below
