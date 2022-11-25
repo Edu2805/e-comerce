@@ -1,27 +1,52 @@
-# FrontEnd
+<p align="center"><img height="80px" src="https://github.com/Edu2805/e-comerce/blob/eduardo/fron-tend/src/assets/Angular.png" width="80px"/></p>
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.8.
 
-## Development server
+<h1 align="center">🛒  Angular project - E-Comerce 🛒</h1>
+<h2 align="center"> 💻 Advanced Angular project using some functional programming concepts. 💻</h2>
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+### New features
+* RXJS - Observables
+* Reactive Forms
+* Component Architecture
+* Advanced Routing
+* Custom Pipes
+* DI and Zones
+* State Management with RxJS
+* Unit/Integration Testing - Jasmine/Karma/Protactor - e2e
+* State Management with RxJS
+* Map display (Google Maps API)
+* Deploy on Docker
 
-## Code scaffolding
+### Some Screens
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Login screen
+<p align="center"><img height="430px" src="https://github.com/Edu2805/e-comerce/blob/eduardo/fron-tend/src/assets/Tela_inicial.png" width="640px"/></p>
 
-## Build
+Login form
+<p align="center"><img height="430px" src="https://github.com/Edu2805/e-comerce/blob/eduardo/fron-tend/src/assets/Login_form.png" width="640px"/></p>
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Provider list
+<p align="center"><img height="430px" src="https://github.com/Edu2805/e-comerce/blob/eduardo/fron-tend/src/assets/Lista_fornecedor.png" width="640px"/></p>
 
-## Running unit tests
+Product form
+<p align="center"><img height="430px" src="https://github.com/Edu2805/e-comerce/blob/eduardo/fron-tend/src/assets/Produto_form.png" width="640px"/></p>
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Product form (With image cropper and validators)
+<p align="center"><img height="430px" src="https://github.com/Edu2805/e-comerce/blob/eduardo/fron-tend/src/assets/Produto_form.png" width="640px"/></p>
 
-## Running end-to-end tests
+Provider Details
+<p align="center"><img height="430px" src="https://github.com/Edu2805/e-comerce/blob/eduardo/fron-tend/src/assets/Detalhes.png" width="640px"/></p>
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Spinner loading
+<p align="center"><img height="430px" src="https://github.com/Edu2805/e-comerce/blob/eduardo/fron-tend/src/assets/Spinner.png" width="640px"/></p>
 
-## Further help
+Toast Service
+<p align="center"><img height="80px" src="https://github.com/Edu2805/e-comerce/blob/eduardo/fron-tend/src/assets/Toast.png" width="280px"/></p>
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## How to use the application
+### You will have to run the backend in Docker, follow the steps below
+* You can access the the repository https://github.com/desenvolvedor-io/curso-angular-avancado
+* Once you are on the repository, follow the README instructions. Run only the backend container (docker-compose -f docker-compose.backend.yml up)
+* Then clone this repository, run **NPM INSTALL** command
+* After installing the dependencies, run the application with **NG SERVE**
+* When the application is live, go to http://localhost:4200/home in your browser
