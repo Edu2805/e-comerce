@@ -20,7 +20,7 @@
 ### Some Screens
 
 Login screen
-<p align="center"><img height="430px" src="https://github.com/Edu2805/e-comerce/blob/fron-tend/src/assets/Tela_inicial.png" width="640px"/></p>
+<p align="center"><img height="430px" src="https://github.com/Edu2805/e-comerce/blob/master/src/assets/Tela_inicial.png" width="640px"/></p>
 
 Login form
 <p align="center"><img height="430px" src="https://github.com/Edu2805/e-comerce/blob/fron-tend/src/assets/Login_form.png" width="640px"/></p>
