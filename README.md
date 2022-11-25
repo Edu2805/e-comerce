@@ -35,7 +35,7 @@ Provider Details
 <p align="center"><img height="430px" src="https://github.com/Edu2805/e-comerce/blob/master/src/assets/Detalhes.png" width="640px"/></p>
 
 Spinner loading
-<p align="center"><img height="480px" src="https://github.com/Edu2805/e-comerce/blob/master/src/assets/Spinner.png" width="650px"/></p>
+<p align="center"><img height="440px" src="https://github.com/Edu2805/e-comerce/blob/master/src/assets/Spinner.png" width="650px"/></p>
 
 Toast Service
 <p align="center"><img height="80px" src="https://github.com/Edu2805/e-comerce/blob/master/src/assets/Toast.png" width="280px"/></p>
