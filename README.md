@@ -28,17 +28,14 @@ Login form
 Provider list
 <p align="center"><img height="430px" src="https://github.com/Edu2805/e-comerce/blob/master/src/assets/Lista_fornecedor.png" width="640px"/></p>
 
-Product form
-<p align="center"><img height="430px" src="https://github.com/Edu2805/e-comerce/blob/master/src/assets/Produto_form.png" width="640px"/></p>
-
 Product form (With image cropper and validators)
-<p align="center"><img height="430px" src="https://github.com/Edu2805/e-comerce/blob/master/src/assets/Produto_form.png" width="640px"/></p>
+<p align="center"><img height="430px" src="https://github.com/Edu2805/e-comerce/blob/master/src/assets/Produto_form.png" width="740px"/></p>
 
 Provider Details
 <p align="center"><img height="430px" src="https://github.com/Edu2805/e-comerce/blob/master/src/assets/Detalhes.png" width="640px"/></p>
 
 Spinner loading
-<p align="center"><img height="430px" src="https://github.com/Edu2805/e-comerce/blob/master/src/assets/Spinner.png" width="640px"/></p>
+<p align="center"><img height="430px" src="https://github.com/Edu2805/e-comerce/blob/master/src/assets/Spinner.png" width="740px"/></p>
 
 Toast Service
 <p align="center"><img height="80px" src="https://github.com/Edu2805/e-comerce/blob/master/src/assets/Toast.png" width="280px"/></p>
